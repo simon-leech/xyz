@@ -233,6 +233,15 @@ async function layerQuery(req, res) {
     }
   }
 
+  // Check whether tenant_id request param is referenced in mapp.user.
+  if (req.params.tenant_id && req.params.tenant_id !== String(req.params.user?.tenant_id)) {
+    res
+      .status(403)
+      .setHeader('Content-Type', 'text/plain')
+      .send(`Access to tenant: ${req.params.tenant_id} param forbidden.`);
+    return;
+  }
+
   // Defined in the layer a default filter cannot be altered by the request.
   const filterDefault = req.params.layer.filter?.default
     ? `AND ${sqlFilter(req.params.layer.filter.default, req)}`
