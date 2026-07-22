@@ -104,6 +104,9 @@ export default async function cookie(req, res) {
       // Assign title identifier to user object.
       user.title = xyzEnv.TITLE;
 
+      // Assign tenant to user object.
+      user.tenant_id = 1;
+
       if (user.blocked) {
         res.setHeader(
           'Set-Cookie',
